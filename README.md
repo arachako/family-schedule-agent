@@ -1,67 +1,65 @@
 # Family Schedule Agent
 
-A small, read-only AI agent demo for interviews.
+A read-only family scheduling agent designed as a lightweight interview demo and usable family web app.
 
 ## What it does
 
 - Takes commitments for multiple family members
-- Detects schedule overlaps
-- Considers priority, flexibility, location, prep/travel buffer, and family context
-- Uses an LLM to reason about the best plan
-- Explains tradeoffs
-- Never edits a calendar, sends a message, books, cancels, or takes any external action
+- Detects direct conflicts and tight handoffs deterministically
+- Uses an in-browser LLM to reason about priority, flexibility, prep/travel buffers, transportation, and family context
+- Produces recommendations and explains tradeoffs
+- Never edits calendars, sends messages, books, cancels, or takes external actions
+- Lets a user copy a shareable schedule snapshot link
 
-## System flow
+## Why this version is free
 
-The system follows an Observe → Reason → Recommend loop:
+The app is fully static and can be hosted on GitHub Pages. AI inference runs inside the user's browser with WebLLM and a small Llama 3.2 1B model. There is no OpenAI API key, no server, and no per-request API charge.
 
-1. Observe: ingest family commitments and constraints
-2. Detect: identify explicit overlaps and implicit logistical risks
-3. Reason: weigh priority, flexibility, buffer time, and context
-4. Recommend: produce a prioritized plan with tradeoffs
-5. Stop: human remains in control
-
-This is deliberately bounded autonomy.
-
-## Run locally
-
-1. Install Node.js 20+
-2. In this folder:
-
-   npm install
-
-3. Copy the environment template:
-
-   cp .env.example .env
-
-4. Add your OpenAI API key to `.env`
-5. Start:
-
-   npm run dev
-
-6. Open:
-
-   http://localhost:3000
-
-If no API key is configured, the app still runs in deterministic fallback mode.
+The first AI analysis downloads the model to the browser. The model is then cached by that browser. If WebGPU is unavailable, the app gracefully falls back to deterministic conflict analysis.
 
 ## Architecture
 
-Browser UI
+GitHub Pages static web app
    ↓
-Express API
+Browser UI + local schedule storage
    ↓
-Deterministic conflict detector
+Deterministic conflict checks
    ↓
-LLM reasoning layer
+WebLLM / Llama 3.2 1B running in the browser
    ↓
 Read-only recommendations
 
-## Good next upgrades
+This follows an Observe → Detect → Reason → Recommend → Stop loop. The human remains in control.
+
+## Publish on GitHub Pages
+
+This repository is ready to publish directly from `main`.
+
+1. Open the repository on GitHub.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, choose **Deploy from a branch**.
+4. Select branch **main** and folder **/(root)**.
+5. Click **Save**.
+
+The site will be available at:
+
+`https://arachako.github.io/family-schedule-agent/`
+
+## Privacy and sharing
+
+Schedule data is stored in the browser's local storage. AI inference also happens in the browser. The **Copy share link** button puts the current schedule snapshot into the URL so another family member can open that snapshot without a shared database.
+
+A share link is a snapshot, not real-time synchronization. A future version can add read-only Google Calendar ingestion or a shared calendar data source.
+
+## Interview framing
+
+> I built a read-only family scheduling agent that combines deterministic conflict detection with local LLM reasoning. It weighs priorities, flexibility, buffers, and logistics, but deliberately stops before taking actions. I also designed it to run as a zero-cost static web app, with the model executing privately in the user's browser rather than through a paid API.
+
+## Possible next upgrades
 
 - Read-only Google Calendar ingestion
 - ICS file import
-- Recurring family preferences
+- Shared family calendar synchronization
 - Travel-time estimates
 - Confidence and assumption tracking
 - Evaluation set for conflict detection and recommendation quality
