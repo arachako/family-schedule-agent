@@ -1,6 +1,6 @@
 {
   "name": "family-schedule-agent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^5.1.0",
-    "openai": "^5.19.1"
+    "express": "^5.1.0"
   }
 }
