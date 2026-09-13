@@ -8,53 +8,60 @@
   <style>
     :root{--bg:#f6f7f9;--card:#fff;--text:#16181d;--muted:#69707d;--line:#e1e4e8;--accent:#111827;--soft:#f0f2f5;--high:#fee2e2;--med:#fef3c7;--low:#dcfce7}
     *{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-    .wrap{max-width:1160px;margin:auto;padding:26px 16px 56px}h1{margin:0 0 6px;font-size:32px;letter-spacing:-.03em}.sub{margin:0 0 18px;color:var(--muted);line-height:1.55;max-width:850px}
+    .wrap{max-width:1160px;margin:auto;padding:26px 16px 56px}h1{margin:0 0 6px;font-size:32px;letter-spacing:-.03em}.sub{margin:0 0 18px;color:var(--muted);line-height:1.55;max-width:880px}
     .privacy{display:inline-block;background:#ecfdf5;border:1px solid #bbf7d0;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;margin-bottom:18px}.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
-    h2{font-size:18px;margin:0 0 14px}h3{font-size:14px;margin:18px 0 8px}.row{display:grid;grid-template-columns:1fr 1.4fr 1fr 1fr;gap:10px;margin-bottom:10px}label{display:block;font-size:12px;font-weight:750;color:var(--muted);margin-bottom:5px}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font:inherit;background:#fff}textarea{min-height:88px;resize:vertical}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}button{border:0;border-radius:10px;padding:10px 13px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#fff}.secondary{background:var(--soft);color:var(--text)}.danger{background:#fff;color:#991b1b;border:1px solid #fecaca;padding:7px 9px}.status{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.4}.progress{height:8px;background:#eceff3;border-radius:999px;overflow:hidden;margin-top:8px;display:none}.progress>div{height:100%;background:#111827;width:0%;transition:width .15s}.event{display:grid;grid-template-columns:1fr auto;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.event-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.45}.badge{display:inline-block;border-radius:999px;padding:3px 7px;font-size:11px;font-weight:800;margin-left:5px}.p3{background:#fee2e2}.p2{background:#fef3c7}.p1{background:#e5e7eb}.note{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:13px;line-height:1.5;color:var(--muted)}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;line-height:1.45}.severity-high{background:var(--high)}.severity-medium{background:var(--med)}.severity-low{background:var(--low)}.empty{color:var(--muted);font-size:14px;padding:12px 0}.tiny{font-size:12px;color:var(--muted)}
-    @media(max-width:850px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr 1fr}}@media(max-width:520px){.row{grid-template-columns:1fr}h1{font-size:27px}}
+    h2{font-size:18px;margin:0 0 14px}h3{font-size:14px;margin:18px 0 8px}label{display:block;font-size:12px;font-weight:750;color:var(--muted);margin-bottom:5px}select,textarea,input{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;font:inherit;background:#fff}textarea{min-height:86px;resize:vertical}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}button{border:0;border-radius:10px;padding:10px 13px;font:inherit;font-weight:750;cursor:pointer}.primary{background:var(--accent);color:#fff}.secondary{background:var(--soft);color:var(--text)}button:disabled{opacity:.5;cursor:not-allowed}.status{font-size:13px;color:var(--muted);margin-top:10px;line-height:1.45}.progress{height:8px;background:#eceff3;border-radius:999px;overflow:hidden;margin-top:8px;display:none}.progress>div{height:100%;background:#111827;width:0%;transition:width .15s}.event{padding:12px 0;border-bottom:1px solid var(--line)}.event:last-child{border-bottom:0}.event-title{font-weight:800}.meta{color:var(--muted);font-size:13px;margin-top:4px;line-height:1.45}.note{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:13px;line-height:1.5;color:var(--muted)}.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;line-height:1.45}.severity-high{background:var(--high)}.severity-medium{background:var(--med)}.severity-low{background:var(--low)}.empty{color:var(--muted);font-size:14px;padding:12px 0}.calendar{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}.calendar input{width:auto;margin-top:3px}.calendar:last-child{border-bottom:0}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.setup{background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:12px}.tiny{font-size:12px;color:var(--muted)}
+    @media(max-width:850px){.grid{grid-template-columns:1fr}}@media(max-width:520px){.row2{grid-template-columns:1fr}h1{font-size:27px}}
   </style>
+  <script src="config.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 <main class="wrap">
   <h1>Family Schedule Agent</h1>
-  <p class="sub">A read-only advisor that detects schedule conflicts, reasons about priorities and logistics, and recommends a plan. It never edits calendars, sends messages, or takes actions.</p>
-  <div class="privacy">Private-by-design: AI runs in your browser. No paid API key.</div>
+  <p class="sub">Connect Google Calendar, choose the family calendars to include, and let the agent analyze upcoming commitments. It is read-only and never edits or deletes calendar events.</p>
+  <div class="privacy">Read-only Calendar access + in-browser AI. No paid AI API key.</div>
 
   <div class="grid">
     <section class="card">
-      <h2>Family schedule</h2>
-      <div class="row">
-        <div><label>Person</label><input id="person" placeholder="e.g. Parent, Teen" /></div>
-        <div><label>Commitment</label><input id="title" placeholder="e.g. Interview" /></div>
-        <div><label>Start</label><input id="start" type="time" /></div>
-        <div><label>End</label><input id="end" type="time" /></div>
+      <h2>Calendar connection</h2>
+      <div id="setupWarning" class="setup" style="display:none"></div>
+      <div class="actions">
+        <button class="primary" id="connectBtn">Connect Google Calendar</button>
+        <button class="secondary" id="refreshBtn" disabled>Refresh events</button>
       </div>
-      <div class="row">
-        <div><label>Priority</label><select id="priority"><option value="3">Critical</option><option value="2" selected>Important</option><option value="1">Flexible</option></select></div>
-        <div><label>Location</label><input id="location" placeholder="Home / School / Zoom" /></div>
-        <div><label>Flexibility</label><select id="flexibility"><option>Fixed</option><option selected>Somewhat flexible</option><option>Flexible</option></select></div>
-        <div><label>Prep / travel buffer</label><select id="buffer"><option value="0">0 min</option><option value="15">15 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div>
+      <div class="status" id="calendarStatus">Not connected.</div>
+
+      <h3>Calendars to include</h3>
+      <div id="calendarList"><div class="empty">Connect Google Calendar to see available calendars.</div></div>
+
+      <div class="row2" style="margin-top:14px">
+        <div><label for="days">Look ahead</label><select id="days"><option value="1">Today</option><option value="3">Next 3 days</option><option value="7" selected>Next 7 days</option><option value="14">Next 14 days</option></select></div>
+        <div><label for="maxEvents">Max events per calendar</label><select id="maxEvents"><option value="50">50</option><option value="100" selected>100</option><option value="250">250</option></select></div>
       </div>
-      <div><label>Event notes</label><input id="notes" placeholder="Ride needed, must leave early, etc." /></div>
-      <div class="actions"><button class="secondary" id="addBtn">Add commitment</button><button class="primary" id="analyzeBtn">Analyze with AI</button><button class="secondary" id="shareBtn">Copy share link</button></div>
-      <div class="status" id="status">AI model loads only when you analyze. First use downloads about 0.9 GB, then the browser caches it.</div>
-      <div class="progress" id="progress"><div id="progressBar"></div></div>
 
       <h3>Family context</h3>
-      <textarea id="context" placeholder="Example: Parent's interview is fixed. Teen can bike. Child needs a ride. Protect 30 minutes before interviews."></textarea>
+      <textarea id="context" placeholder="Optional standing rules, for example: school pickup needs a parent, interviews are fixed, one child can bike, protect 30 minutes before important meetings."></textarea>
+      <div class="tiny">This is saved only in this browser and helps the agent reason about family logistics that are not explicit in calendar events.</div>
 
-      <h3>Current commitments</h3>
-      <div id="eventList"></div>
+      <div class="actions">
+        <button class="primary" id="analyzeBtn" disabled>Analyze schedule</button>
+      </div>
+      <div class="status" id="status">Load calendar events before analyzing.</div>
+      <div class="progress" id="progress"><div id="progressBar"></div></div>
+
+      <h3>Upcoming commitments</h3>
+      <div id="eventList"><div class="empty">No calendar events loaded yet.</div></div>
     </section>
 
     <section class="card">
       <h2>Agent assessment</h2>
       <div id="results">
-        <div class="note"><strong>Bounded autonomy:</strong> the agent can observe, reason, prioritize, and recommend. It cannot execute changes.</div>
-        <div class="empty">Add commitments, then choose <strong>Analyze with AI</strong>.</div>
+        <div class="note"><strong>Bounded autonomy:</strong> the agent can observe, reason, prioritize, and recommend. It cannot modify your calendars or contact anyone.</div>
+        <div class="empty">Connect calendars and load events, then choose <strong>Analyze schedule</strong>.</div>
       </div>
-      <h3>How it works</h3>
-      <div class="note">Deterministic checks catch obvious overlaps. A small local LLM then reasons about flexibility, priority, buffers, transportation, and tradeoffs. If WebGPU is unavailable, the app still provides rule-based conflict analysis.</div>
+      <h3>Architecture</h3>
+      <div class="note">Google Calendar → read-only OAuth → selected calendars → deterministic conflict checks → in-browser LLM reasoning → recommendations. Calendar access tokens stay in browser memory and are not stored by this app.</div>
     </section>
   </div>
 </main>
@@ -63,66 +70,152 @@
 import * as webllm from "https://esm.run/@mlc-ai/web-llm";
 
 const MODEL = "Llama-3.2-1B-Instruct-q4f16_1-MLC";
+const SCOPES = "https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.calendarlist.readonly";
 const $ = id => document.getElementById(id);
-let engine = null;
+const CLIENT_ID = window.APP_CONFIG?.googleClientId || "";
+let tokenClient = null;
+let accessToken = null;
+let calendars = [];
 let events = [];
-
-const samples = [
-  {person:"Parent 1",title:"Important interview",start:"10:00",end:"11:00",priority:3,location:"Zoom",flexibility:"Fixed",buffer:30,notes:"Needs quiet prep time."},
-  {person:"Child",title:"Music lesson",start:"11:15",end:"12:00",priority:2,location:"Music school",flexibility:"Somewhat flexible",buffer:20,notes:"Needs a ride."},
-  {person:"Teen",title:"Study group",start:"10:30",end:"12:00",priority:2,location:"School",flexibility:"Somewhat flexible",buffer:15,notes:"Can bike."},
-  {person:"Family",title:"Lunch",start:"12:00",end:"13:00",priority:1,location:"Home",flexibility:"Flexible",buffer:0,notes:"Can move later."}
-];
+let engine = null;
 
 function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));}
-function priorityLabel(n){return Number(n)===3?"Critical":Number(n)===2?"Important":"Flexible";}
-function save(){localStorage.setItem("familyScheduleEvents",JSON.stringify(events));localStorage.setItem("familyScheduleContext",$("context").value);}
-function load(){
-  try{const hash=new URLSearchParams(location.hash.slice(1));const shared=hash.get("s");if(shared){const data=JSON.parse(decodeURIComponent(escape(atob(shared))));events=data.events||[];$("context").value=data.context||"";return;}}catch{}
-  try{events=JSON.parse(localStorage.getItem("familyScheduleEvents")||"null")||samples;}catch{events=samples;}
-  $("context").value=localStorage.getItem("familyScheduleContext")||"";
+function fmtDate(iso, allDay=false){if(!iso)return "";if(allDay)return new Date(iso+"T00:00:00").toLocaleDateString([], {weekday:"short",month:"short",day:"numeric"});const d=new Date(iso);return d.toLocaleString([], {weekday:"short",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});}
+function saveContext(){localStorage.setItem("familyScheduleContext",$("context").value);} 
+$("context").value=localStorage.getItem("familyScheduleContext")||"";
+$("context").addEventListener("input",saveContext);
+
+function waitForGoogle(){return new Promise((resolve,reject)=>{let tries=0;const t=setInterval(()=>{tries++;if(window.google?.accounts?.oauth2){clearInterval(t);resolve();}else if(tries>100){clearInterval(t);reject(new Error("Google sign-in library did not load."));}},100);});}
+
+function configured(){return CLIENT_ID && !CLIENT_ID.startsWith("PASTE_") && CLIENT_ID.includes(".apps.googleusercontent.com");}
+if(!configured()){
+  $("setupWarning").style.display="block";
+  $("setupWarning").innerHTML="<strong>One-time setup needed:</strong> add a Google OAuth Web Client ID to <code>config.js</code>. After that, every family member can sign in with their own Google account.";
 }
+
+async function initTokenClient(){
+  if(!configured())throw new Error("Google OAuth Client ID is not configured yet.");
+  if(tokenClient)return tokenClient;
+  await waitForGoogle();
+  tokenClient=google.accounts.oauth2.initTokenClient({
+    client_id:CLIENT_ID,
+    scope:SCOPES,
+    callback:async response=>{
+      if(response.error){$("calendarStatus").textContent=`Google authorization failed: ${response.error}`;return;}
+      accessToken=response.access_token;
+      try{await loadCalendars();}catch(e){$("calendarStatus").textContent=e.message;}
+    }
+  });
+  return tokenClient;
+}
+
+async function googleFetch(url){
+  const r=await fetch(url,{headers:{Authorization:`Bearer ${accessToken}`}});
+  if(r.status===401){accessToken=null;throw new Error("Google authorization expired. Click Connect Google Calendar again.");}
+  if(!r.ok){let d={};try{d=await r.json();}catch{}throw new Error(d?.error?.message||`Google Calendar request failed (${r.status}).`);}
+  return r.json();
+}
+
+async function loadCalendars(){
+  $("calendarStatus").textContent="Loading calendars…";
+  const data=await googleFetch("https://www.googleapis.com/calendar/v3/users/me/calendarList?maxResults=250");
+  calendars=(data.items||[]).map(c=>({id:c.id,name:c.summaryOverride||c.summary||c.id,primary:!!c.primary,selected:!!c.selected,accessRole:c.accessRole}));
+  renderCalendars();
+  $("refreshBtn").disabled=false;
+  $("calendarStatus").textContent=`Connected. ${calendars.length} calendar${calendars.length===1?"":"s"} available.`;
+}
+
+function renderCalendars(){
+  if(!calendars.length){$("calendarList").innerHTML='<div class="empty">No calendars available.</div>';return;}
+  $("calendarList").innerHTML=calendars.map((c,i)=>`<label class="calendar"><input type="checkbox" data-cal="${i}" ${c.primary||c.selected?"checked":""}><span><strong>${esc(c.name)}</strong>${c.primary?' <span class="tiny">(primary)</span>':''}<div class="tiny">${esc(c.accessRole||"reader")}</div></span></label>`).join("");
+}
+
+function selectedCalendars(){return [...document.querySelectorAll("[data-cal]:checked")].map(x=>calendars[Number(x.dataset.cal)]).filter(Boolean);}
+
+async function loadEvents(){
+  const selected=selectedCalendars();
+  if(!selected.length)throw new Error("Select at least one calendar.");
+  const days=Number($("days").value)||7;
+  const maxResults=Number($("maxEvents").value)||100;
+  const timeMin=new Date();
+  timeMin.setHours(0,0,0,0);
+  const timeMax=new Date(timeMin);timeMax.setDate(timeMax.getDate()+days);
+  $("calendarStatus").textContent=`Loading events from ${selected.length} calendar${selected.length===1?"":"s"}…`;
+  const batches=await Promise.all(selected.map(async cal=>{
+    const qs=new URLSearchParams({timeMin:timeMin.toISOString(),timeMax:timeMax.toISOString(),singleEvents:"true",orderBy:"startTime",maxResults:String(maxResults)});
+    const data=await googleFetch(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events?${qs}`);
+    return (data.items||[]).filter(e=>e.status!=="cancelled").map(e=>({
+      calendarId:cal.id,person:cal.name,title:e.summary||"Busy",location:e.location||"",startISO:e.start?.dateTime||e.start?.date||"",endISO:e.end?.dateTime||e.end?.date||"",allDay:!!e.start?.date,transparency:e.transparency||"opaque",eventType:e.eventType||"default"
+    }));
+  }));
+  events=batches.flat().sort((a,b)=>String(a.startISO).localeCompare(String(b.startISO)));
+  renderEvents();
+  $("analyzeBtn").disabled=!events.length;
+  $("calendarStatus").textContent=`Loaded ${events.length} upcoming event${events.length===1?"":"s"}.`;
+  $("status").textContent=events.length?"Ready to analyze.":"No upcoming events found for the selected range.";
+}
+
 function renderEvents(){
-  if(!events.length){$("eventList").innerHTML='<div class="empty">No commitments yet.</div>';return;}
-  $("eventList").innerHTML=[...events].sort((a,b)=>a.start.localeCompare(b.start)).map(e=>{const i=events.indexOf(e);return `<div class="event"><div><div class="event-title">${esc(e.start)}–${esc(e.end)} · ${esc(e.title)} <span class="badge p${Number(e.priority)}">${priorityLabel(e.priority)}</span></div><div class="meta">${esc(e.person)} · ${esc(e.location||"No location")} · ${esc(e.flexibility)} · ${Number(e.buffer)||0} min buffer${e.notes?" · "+esc(e.notes):""}</div></div><button class="danger" data-remove="${i}">Remove</button></div>`}).join("");
-  document.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>{events.splice(Number(b.dataset.remove),1);save();renderEvents();});
+  if(!events.length){$("eventList").innerHTML='<div class="empty">No events loaded.</div>';return;}
+  $("eventList").innerHTML=events.map(e=>`<div class="event"><div class="event-title">${esc(e.title)}</div><div class="meta">${esc(e.person)} · ${esc(fmtDate(e.startISO,e.allDay))}${e.allDay?" · all day":" → "+esc(fmtDate(e.endISO,false))}${e.location?" · "+esc(e.location):""}</div></div>`).join("");
 }
-function toMin(t){const [h,m]=t.split(":").map(Number);return h*60+m;}
-function deterministic(){
+
+function deterministicConflicts(){
   const out=[];
-  for(let i=0;i<events.length;i++)for(let j=i+1;j<events.length;j++){
-    const a=events[i],b=events[j],as=toMin(a.start),ae=toMin(a.end),bs=toMin(b.start),be=toMin(b.end);
-    const overlap=as<be&&bs<ae;
-    if(overlap&&(a.person===b.person||a.person==="Family"||b.person==="Family"))out.push({issue:`${a.person}: ${a.title} conflicts with ${b.person}: ${b.title}`,severity:"high",reasoning:"The same person or a family-wide commitment is double-booked."});
-    if(a.person===b.person&&!overlap){const first=ae<=bs?a:b,second=ae<=bs?b:a;const gap=Math.max(0,toMin(second.start)-toMin(first.end));const needed=Math.max(Number(first.buffer)||0,Number(second.buffer)||0);if(gap<needed)out.push({issue:`Tight handoff for ${a.person}: ${first.title} → ${second.title}`,severity:"medium",reasoning:`Only ${gap} minutes between commitments, with a ${needed}-minute buffer requested.`});}
+  const timed=events.filter(e=>!e.allDay&&e.transparency!=="transparent"&&e.startISO&&e.endISO);
+  for(let i=0;i<timed.length;i++)for(let j=i+1;j<timed.length;j++){
+    const a=timed[i],b=timed[j];
+    if(a.person!==b.person)continue;
+    const as=new Date(a.startISO).getTime(),ae=new Date(a.endISO).getTime(),bs=new Date(b.startISO).getTime(),be=new Date(b.endISO).getTime();
+    if(as<be&&bs<ae)out.push({issue:`${a.person} is double-booked: ${a.title} and ${b.title}`,severity:"high",reasoning:"These events overlap on the same calendar."});
+    else {const first=ae<=bs?a:b,second=ae<=bs?b:a;const gap=(new Date(second.startISO)-new Date(first.endISO))/60000;if(gap>=0&&gap<20&&first.location&&second.location&&first.location!==second.location)out.push({issue:`Tight transition for ${a.person}: ${first.title} → ${second.title}`,severity:"medium",reasoning:`Only ${Math.round(gap)} minutes between events at different listed locations.`});}
   }
   return out;
 }
-function fallback(conflicts){return {mode:"rules",summary:conflicts.length?"I found schedule conflicts or tight handoffs that need review.":"No obvious same-person or family-wide conflicts were found by the rule-based check.",conflicts,priorities:[...events].sort((a,b)=>b.priority-a.priority).slice(0,5).map((e,i)=>({rank:i+1,event:e.title,person:e.person,reason:`${priorityLabel(e.priority)} and ${e.flexibility.toLowerCase()}.`})),recommendations:conflicts.length?[{recommendation:"Protect the least flexible, highest-priority commitment first and adjust flexible commitments around it.",tradeoff:"This preserves critical commitments but may reduce convenience."}]:[{recommendation:"The schedule is feasible based on explicit timing. Review transportation and prep constraints before finalizing.",tradeoff:"Rule-based analysis cannot infer every logistical dependency."}],questions:[]};}
+
+function fallback(conflicts){return {mode:"rules",summary:conflicts.length?"I found calendar conflicts or tight transitions that deserve attention.":"No obvious same-person conflicts were found by the deterministic checks.",conflicts,recommendations:conflicts.length?[{recommendation:"Protect the least flexible commitment first and adjust surrounding plans manually.",tradeoff:"This avoids automatic calendar changes while surfacing the conflict."}]:[{recommendation:"The visible schedule is feasible based on explicit times. Review transportation and family dependencies before finalizing.",tradeoff:"Some family constraints may not be encoded in calendar events."}],questions:[]};}
+
 function render(data){
-  let html=`<div class="note"><strong>Mode:</strong> ${data.mode==="ai"?"In-browser AI reasoning":"Rule-based fallback"} · <strong>Read-only:</strong> no actions are taken.</div>`;
+  let html=`<div class="note"><strong>Mode:</strong> ${data.mode==="ai"?"In-browser AI reasoning":"Rule-based fallback"} · <strong>Read-only:</strong> no calendar changes.</div>`;
   if(data.summary)html+=`<h3>Assessment</h3><div>${esc(data.summary)}</div>`;
   html+='<h3>Conflicts and risks</h3>'+(data.conflicts?.length?data.conflicts.map(c=>`<div class="item severity-${["high","medium","low"].includes(c.severity)?c.severity:"low"}"><strong>${esc(c.issue)}</strong><div class="meta">${esc(c.reasoning||"")}</div></div>`).join(""):'<div class="item severity-low">No major conflict detected.</div>');
-  if(data.priorities?.length)html+='<h3>Priority order</h3>'+data.priorities.map(p=>`<div class="item"><strong>${esc(p.rank?`${p.rank}. `:"")}${esc(p.person||"")} · ${esc(p.event||p)}</strong>${p.reason?`<div class="meta">${esc(p.reason)}</div>`:""}</div>`).join("");
   if(data.recommendations?.length)html+='<h3>Recommended plan</h3>'+data.recommendations.map(r=>`<div class="item"><strong>${esc(r.recommendation||r)}</strong>${r.tradeoff?`<div class="meta">Tradeoff: ${esc(r.tradeoff)}</div>`:""}</div>`).join("");
   if(data.questions?.length)html+='<h3>Missing information</h3>'+data.questions.map(q=>`<div class="item">${esc(q)}</div>`).join("");
   $("results").innerHTML=html;
 }
+
 async function ensureEngine(){
   if(engine)return engine;
-  if(!navigator.gpu)throw new Error("This browser does not support WebGPU.");
+  if(!navigator.gpu)throw new Error("WebGPU is unavailable in this browser.");
   $("progress").style.display="block";
   engine=await webllm.CreateMLCEngine(MODEL,{initProgressCallback:p=>{const pct=Math.round((p.progress||0)*100);$("progressBar").style.width=pct+"%";$("status").textContent=`Loading private AI model… ${pct}% ${p.text||""}`;}});
   $("progress").style.display="none";$("status").textContent="AI ready. Model is cached in this browser.";return engine;
 }
-function buildPrompt(conflicts){return `You are a read-only family scheduling advisor. Review the commitments and return ONLY valid JSON with this shape: {"summary":"2-4 sentence assessment","conflicts":[{"issue":"specific risk","severity":"high|medium|low","reasoning":"why"}],"priorities":[{"rank":1,"event":"event","person":"person","reason":"why protect it"}],"recommendations":[{"recommendation":"specific recommendation","tradeoff":"tradeoff"}],"questions":["only materially useful questions"]}. Detect direct overlaps, tight handoffs, transportation or prep risks. Weigh priority and flexibility. Never claim to reschedule, message, book, cancel, or modify anything. Family context: ${$("context").value||"None provided"}. Deterministic findings: ${JSON.stringify(conflicts)}. Events: ${JSON.stringify(events)}.`;}
 
-$("addBtn").onclick=()=>{const title=$("title").value.trim(),start=$("start").value,end=$("end").value,person=$("person").value.trim()||"Family member";if(!title||!start||!end){$("status").textContent="Add a commitment, start time, and end time.";return;}if(end<=start){$("status").textContent="End time must be after start time.";return;}events.push({person,title,start,end,priority:Number($("priority").value),location:$("location").value.trim(),flexibility:$("flexibility").value,buffer:Number($("buffer").value),notes:$("notes").value.trim()});["title","start","end","location","notes"].forEach(id=>$(id).value="");save();renderEvents();$("status").textContent="Commitment added.";};
-$("context").addEventListener("input",save);
-$("shareBtn").onclick=async()=>{save();const payload=btoa(unescape(encodeURIComponent(JSON.stringify({events,context:$("context").value}))));const url=location.origin+location.pathname+"#s="+encodeURIComponent(payload);try{await navigator.clipboard.writeText(url);$("status").textContent="Share link copied. It contains this schedule snapshot in the URL.";}catch{$("status").textContent=url;}};
-$("analyzeBtn").onclick=async()=>{if(!events.length)return;const conflicts=deterministic();$("analyzeBtn").disabled=true;render(fallback(conflicts));try{const e=await ensureEngine();$("status").textContent="Reasoning locally in your browser…";const r=await e.chat.completions.create({messages:[{role:"user",content:buildPrompt(conflicts)}],temperature:0.2,max_tokens:900,response_format:{type:"json_object"}});const raw=r.choices?.[0]?.message?.content||"";let data=JSON.parse(raw);render({mode:"ai",...data});$("status").textContent="AI analysis complete. Nothing was sent to a paid API.";}catch(err){console.error(err);render(fallback(conflicts));$("status").textContent=`AI unavailable, showing rule-based results. ${err.message||""}`;}finally{$("analyzeBtn").disabled=false;}};
+function buildPrompt(conflicts){
+  const compact=events.map(e=>({calendar:e.person,title:e.title,start:e.startISO,end:e.endISO,allDay:e.allDay,location:e.location,eventType:e.eventType}));
+  return `You are a read-only family scheduling advisor. Analyze these calendar events and return ONLY valid JSON: {"summary":"2-4 sentences","conflicts":[{"issue":"specific risk","severity":"high|medium|low","reasoning":"why"}],"recommendations":[{"recommendation":"specific advice","tradeoff":"tradeoff"}],"questions":["only materially useful missing information"]}. Consider overlapping commitments, tight travel windows, pickup/dropoff dependencies, preparation time, family-wide logistics, and fixed-looking events. Use the supplied family context when relevant. Never claim to reschedule, message, book, cancel, or modify anything. Family context: ${$("context").value||"None provided"}. Deterministic findings: ${JSON.stringify(conflicts)}. Calendar events: ${JSON.stringify(compact)}.`;
+}
 
-load();renderEvents();
+$("connectBtn").onclick=async()=>{try{await initTokenClient();tokenClient.requestAccessToken({prompt:accessToken?"":"consent"});}catch(e){$("calendarStatus").textContent=e.message;}};
+$("refreshBtn").onclick=async()=>{try{await loadEvents();}catch(e){$("calendarStatus").textContent=e.message;}};
+$("days").onchange=()=>{if(accessToken)loadEvents().catch(e=>$("calendarStatus").textContent=e.message);};
+
+$("analyzeBtn").onclick=async()=>{
+  const conflicts=deterministicConflicts();
+  $("analyzeBtn").disabled=true;$("status").textContent="Analyzing…";
+  try{
+    const llm=await ensureEngine();
+    const response=await llm.chat.completions.create({messages:[{role:"user",content:buildPrompt(conflicts)}],temperature:.2,response_format:{type:"json_object"}});
+    const raw=response.choices?.[0]?.message?.content||"{}";
+    const parsed=JSON.parse(raw.match(/\{[\s\S]*\}/)?.[0]||raw);
+    parsed.mode="ai";
+    if(!Array.isArray(parsed.conflicts))parsed.conflicts=[];
+    const seen=new Set(parsed.conflicts.map(c=>c.issue));for(const c of conflicts)if(!seen.has(c.issue))parsed.conflicts.unshift(c);
+    render(parsed);$("status").textContent="Analysis complete.";
+  }catch(e){render(fallback(conflicts));$("status").textContent=`AI unavailable (${e.message}). Showing deterministic analysis.`;}
+  finally{$("analyzeBtn").disabled=!events.length;}
+};
 </script>
 </body>
 </html>
