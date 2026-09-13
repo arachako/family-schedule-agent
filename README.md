@@ -11,7 +11,7 @@ A small, read-only AI agent demo for interviews.
 - Explains tradeoffs
 - Never edits a calendar, sends a message, books, cancels, or takes any external action
 
-## Why it qualifies as an AI agent
+## System flow
 
 The system follows an Observe → Reason → Recommend loop:
 
@@ -44,12 +44,6 @@ This is deliberately bounded autonomy.
    http://localhost:3000
 
 If no API key is configured, the app still runs in deterministic fallback mode.
-
-## Interview demo script
-
-"I built a read-only family scheduling agent because our family has multiple school, interview, activity, and household commitments. A normal calendar can show overlaps, but it does not reason about which commitments are fixed, which are flexible, who needs transportation, or how much prep time matters.
-
-The agent observes the schedule, detects conflicts, reasons about priorities and constraints, and recommends the best plan. I intentionally stopped autonomy before execution. It cannot modify calendars or message family members. That boundary keeps the human in control while still capturing the value of agentic reasoning."
 
 ## Architecture
 
