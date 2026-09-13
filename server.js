@@ -1,9 +1,10 @@
 import "dotenv/config";
 import express from "express";
-import OpenAI from "openai";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const ollamaModel = process.env.OLLAMA_MODEL || "llama3.2:3b";
+const ollamaUrl = process.env.OLLAMA_URL || "http://localhost:11434";
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.static("public"));
@@ -29,6 +30,24 @@ function deterministicConflicts(events) {
   return conflicts;
 }
 
+function fallbackResult(events, conflicts, detail = "") {
+  return {
+    mode: "fallback",
+    summary: detail
+      ? `Local AI is unavailable right now, so this result uses deterministic conflict detection only. ${detail}`
+      : "This result uses deterministic conflict detection only.",
+    conflicts,
+    priorities: events
+      .slice()
+      .sort((a, b) => (b.priority || 0) - (a.priority || 0))
+      .map(e => `${e.person}: ${e.title}`),
+    recommendations: conflicts.length
+      ? ["Review each overlap. Protect the higher-priority or least-flexible commitment first."]
+      : ["No direct time overlaps detected."],
+    questions: []
+  };
+}
+
 app.post("/api/analyze", async (req, res) => {
   const { events = [], familyContext = "" } = req.body || {};
 
@@ -37,24 +56,6 @@ app.post("/api/analyze", async (req, res) => {
   }
 
   const conflicts = deterministicConflicts(events);
-
-  if (!process.env.OPENAI_API_KEY) {
-    return res.json({
-      mode: "fallback",
-      summary: "OPENAI_API_KEY is not configured, so this result uses deterministic conflict detection only.",
-      conflicts,
-      priorities: events
-        .slice()
-        .sort((a, b) => (b.priority || 0) - (a.priority || 0))
-        .map(e => `${e.person}: ${e.title}`),
-      recommendations: conflicts.length
-        ? ["Review each overlap. Protect the higher-priority or least-flexible commitment first."]
-        : ["No time overlaps detected. Add an API key to get contextual reasoning and recommendations."],
-      questions: []
-    });
-  }
-
-  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const prompt = `
 You are a read-only family scheduling advisor.
@@ -104,37 +105,41 @@ ${JSON.stringify(events, null, 2)}
 `.trim();
 
   try {
-    const response = await client.responses.create({
-      model: "gpt-5.6-luna",
-      reasoning: { effort: "low" },
-      input: prompt
+    const response = await fetch(`${ollamaUrl}/api/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: ollamaModel,
+        stream: false,
+        format: "json",
+        messages: [
+          { role: "system", content: "You are a careful scheduling reasoning assistant. Return only JSON." },
+          { role: "user", content: prompt }
+        ]
+      })
     });
 
-    const raw = response.output_text?.trim() || "";
-    let parsed;
-    try {
-      parsed = JSON.parse(raw);
-    } catch {
-      const match = raw.match(/\{[\s\S]*\}/);
-      parsed = match ? JSON.parse(match[0]) : null;
+    if (!response.ok) {
+      throw new Error(`Ollama returned ${response.status}.`);
     }
 
-    if (!parsed) throw new Error("Model did not return valid JSON.");
+    const data = await response.json();
+    const raw = data?.message?.content?.trim() || "";
+    const parsed = JSON.parse(raw);
 
     res.json({
-      mode: "ai",
+      mode: "ai-local",
+      model: ollamaModel,
       deterministicConflicts: conflicts,
       ...parsed
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({
-      error: "AI analysis failed.",
-      detail: err?.message || "Unknown error"
-    });
+    res.json(fallbackResult(events, conflicts, "Start Ollama and make sure the local model is installed for AI reasoning."));
   }
 });
 
 app.listen(port, () => {
   console.log(`Family Schedule Agent running at http://localhost:${port}`);
+  console.log(`Local AI model: ${ollamaModel} via ${ollamaUrl}`);
 });
