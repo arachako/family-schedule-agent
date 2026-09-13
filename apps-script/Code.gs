@@ -4,29 +4,38 @@ const CONFIG = {
     "family-member@example.com"
   ],
   CALENDAR_NAMES: [],
-  SEND_HOUR: 18,
+  TODAY_SEND_HOUR: 7,
+  TOMORROW_SEND_HOUR: 19,
   TIME_ZONE: "America/Los_Angeles",
   WEB_APP_URL: "https://arachako.github.io/family-schedule-agent/",
   GEMINI_MODEL: "gemini-3.5-flash-lite"
 };
 
-function sendDailyFamilySchedule() {
+function sendTodayFamilySchedule() {
+  sendFamilyScheduleForOffset_(0, "today");
+}
+
+function sendTomorrowFamilySchedule() {
+  sendFamilyScheduleForOffset_(1, "tomorrow");
+}
+
+function sendFamilyScheduleForOffset_(dayOffset, dayLabel) {
   validateConfig_();
 
-  const range = tomorrowRange_();
+  const range = dayRange_(dayOffset);
   const calendars = selectedCalendars_();
   const rawEvents = collectEvents_(calendars, range.start, range.end);
   const events = dedupeEvents_(rawEvents);
   const deterministicConflicts = findConflicts_(events);
-  const ai = analyzeScheduleWithAI_(events, deterministicConflicts);
+  const ai = analyzeScheduleWithAI_(events, deterministicConflicts, dayLabel);
 
   const dateLabel = Utilities.formatDate(range.start, CONFIG.TIME_ZONE, "EEEE, MMMM d");
-  const html = buildEmailHtml_(dateLabel, events, ai);
-  const text = buildPlainText_(dateLabel, events, ai);
+  const html = buildEmailHtml_(dayLabel, dateLabel, events, ai);
+  const text = buildPlainText_(dayLabel, dateLabel, events, ai);
 
   MailApp.sendEmail({
     to: CONFIG.RECIPIENTS.join(","),
-    subject: `Family schedule for tomorrow · ${dateLabel}`,
+    subject: `Family schedule for ${dayLabel} · ${dateLabel}`,
     body: text,
     htmlBody: html,
     name: "Family Schedule Agent"
@@ -34,21 +43,51 @@ function sendDailyFamilySchedule() {
 }
 
 function sendTestEmail() {
-  sendDailyFamilySchedule();
+  sendTomorrowFamilySchedule();
 }
 
-function createDailyTrigger() {
-  deleteDailyTrigger_();
-  ScriptApp.newTrigger("sendDailyFamilySchedule")
+function sendTestTodayEmail() {
+  sendTodayFamilySchedule();
+}
+
+function sendTestTomorrowEmail() {
+  sendTomorrowFamilySchedule();
+}
+
+function createDailyTriggers() {
+  deleteDailyTriggers_();
+
+  ScriptApp.newTrigger("sendTodayFamilySchedule")
     .timeBased()
     .everyDays(1)
-    .atHour(CONFIG.SEND_HOUR)
+    .atHour(CONFIG.TODAY_SEND_HOUR)
+    .nearMinute(0)
+    .inTimezone(CONFIG.TIME_ZONE)
+    .create();
+
+  ScriptApp.newTrigger("sendTomorrowFamilySchedule")
+    .timeBased()
+    .everyDays(1)
+    .atHour(CONFIG.TOMORROW_SEND_HOUR)
+    .nearMinute(0)
+    .inTimezone(CONFIG.TIME_ZONE)
     .create();
 }
 
-function deleteDailyTrigger_() {
+// Kept for compatibility if you previously used this function name.
+function createDailyTrigger() {
+  createDailyTriggers();
+}
+
+function deleteDailyTriggers_() {
+  const handlers = new Set([
+    "sendTodayFamilySchedule",
+    "sendTomorrowFamilySchedule",
+    "sendDailyFamilySchedule"
+  ]);
+
   ScriptApp.getProjectTriggers()
-    .filter(t => t.getHandlerFunction() === "sendDailyFamilySchedule")
+    .filter(t => handlers.has(t.getHandlerFunction()))
     .forEach(t => ScriptApp.deleteTrigger(t));
 }
 
@@ -58,9 +97,9 @@ function validateConfig_() {
   }
 }
 
-function tomorrowRange_() {
+function dayRange_(dayOffset) {
   const start = new Date();
-  start.setDate(start.getDate() + 1);
+  start.setDate(start.getDate() + dayOffset);
   start.setHours(0, 0, 0, 0);
   const end = new Date(start);
   end.setDate(end.getDate() + 1);
@@ -180,7 +219,7 @@ function findConflicts_(events) {
   });
 }
 
-function analyzeScheduleWithAI_(events, deterministicConflicts) {
+function analyzeScheduleWithAI_(events, deterministicConflicts, dayLabel) {
   const apiKey = PropertiesService.getScriptProperties().getProperty("GEMINI_API_KEY");
   if (!apiKey) return fallbackAI_(deterministicConflicts, "Gemini API key is not configured.");
 
@@ -194,29 +233,7 @@ function analyzeScheduleWithAI_(events, deterministicConflicts) {
     description: truncate_(e.description, 400)
   }));
 
-  const prompt = `You are a read-only family scheduling analyst. Analyze tomorrow's calendar.
-
-Rules:
-1. Do not treat duplicate representations of the same real-world commitment as conflicts.
-2. Different titles can represent the same event. Example: "Girls Instructional Fall Ball" and "Lacrosse Tanvi" at the same time may be one activity.
-3. Put probable duplicates under likelyDuplicates, not trueConflicts.
-4. Only mark a true conflict when the family genuinely appears to need to be in incompatible places or do incompatible things.
-5. If uncertain, use watchItems.
-6. Do not claim to edit, reschedule, message, or take actions.
-7. Return only valid JSON in exactly this shape:
-{
-  "summary":"2-4 sentence family-level summary",
-  "likelyDuplicates":[{"events":["event 1","event 2"],"reasoning":"why"}],
-  "trueConflicts":[{"severity":"HIGH|MEDIUM|LOW","issue":"specific conflict","reasoning":"why"}],
-  "watchItems":[{"issue":"something to verify","reasoning":"why"}],
-  "recommendations":["specific read-only recommendation"]
-}
-
-Calendar events:
-${JSON.stringify(eventPayload)}
-
-Rule-based candidate conflicts, which may contain false positives:
-${JSON.stringify(deterministicConflicts)}`;
+  const prompt = `You are a read-only family scheduling analyst. Analyze ${dayLabel}'s calendar.\n\nRules:\n1. Do not treat duplicate representations of the same real-world commitment as conflicts.\n2. Different titles can represent the same event. Example: \"Girls Instructional Fall Ball\" and \"Lacrosse Tanvi\" at the same time may be one activity.\n3. Put probable duplicates under likelyDuplicates, not trueConflicts.\n4. Only mark a true conflict when the family genuinely appears to need to be in incompatible places or do incompatible things.\n5. If uncertain, use watchItems.\n6. Do not claim to edit, reschedule, message, or take actions.\n7. Return only valid JSON in exactly this shape:\n{\n  \"summary\":\"2-4 sentence family-level summary\",\n  \"likelyDuplicates\":[{\"events\":[\"event 1\",\"event 2\"],\"reasoning\":\"why\"}],\n  \"trueConflicts\":[{\"severity\":\"HIGH|MEDIUM|LOW\",\"issue\":\"specific conflict\",\"reasoning\":\"why\"}],\n  \"watchItems\":[{\"issue\":\"something to verify\",\"reasoning\":\"why\"}],\n  \"recommendations\":[\"specific read-only recommendation\"]\n}\n\nCalendar events:\n${JSON.stringify(eventPayload)}\n\nRule-based candidate conflicts, which may contain false positives:\n${JSON.stringify(deterministicConflicts)}`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(CONFIG.GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(apiKey)}`;
   const body = {
@@ -279,7 +296,7 @@ function fallbackAI_(conflicts, reason) {
   };
 }
 
-function buildEmailHtml_(dateLabel, events, ai) {
+function buildEmailHtml_(dayLabel, dateLabel, events, ai) {
   const byCalendar = groupByCalendar_(events);
   const badge = ai.available ? "AI analysis" : "Rule-based fallback";
 
@@ -309,7 +326,7 @@ function buildEmailHtml_(dateLabel, events, ai) {
   }).join("");
 
   return `<div style="font-family:Arial,sans-serif;line-height:1.5;color:#202124;max-width:720px">
-    <h2 style="margin-bottom:4px">Family schedule for tomorrow</h2>
+    <h2 style="margin-bottom:4px">Family schedule for ${escapeHtml_(dayLabel)}</h2>
     <div style="color:#5f6368;margin-bottom:12px">${escapeHtml_(dateLabel)}</div>
     <div style="font-size:12px;color:#5f6368">${badge}</div>
     <h3>AI assessment</h3>
@@ -326,9 +343,9 @@ function buildEmailHtml_(dateLabel, events, ai) {
   </div>`;
 }
 
-function buildPlainText_(dateLabel, events, ai) {
+function buildPlainText_(dayLabel, dateLabel, events, ai) {
   const lines = [
-    `FAMILY SCHEDULE FOR TOMORROW · ${dateLabel}`,
+    `FAMILY SCHEDULE FOR ${dayLabel.toUpperCase()} · ${dateLabel}`,
     "",
     `AI ASSESSMENT${ai.available ? "" : " (FALLBACK)"}`,
     ai.summary || ""
